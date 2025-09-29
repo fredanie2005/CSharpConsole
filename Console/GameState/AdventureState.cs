@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Console;
 using PlayerSpace;
 
@@ -23,53 +19,67 @@ namespace Console.GameState
 
         public void Update()
         {
-            ConsoleKey key = System.Console.ReadKey(true).Key;
+            var key = System.Console.ReadKey(true).Key;
             var (dx, dy) = InputReader.GetMovement(key);
 
-            int _newX = _player._x + dx;
-            int _newY = _player._y + dy;
+            MovePlayer(dx, dy);
+            HandleMapTransition();
+            Draw();
+        }
 
-            if (_newX >= 0 && _newX < _mapManager._currentMap._width &&
-                _newY >= 0 && _newY < _mapManager._currentMap._height)
+        private void MovePlayer(int dx, int dy)
+        {
+            int newX = _player.X + dx;
+            int newY = _player.Y + dy;
+
+            if (newX >= 0 && newX < _mapManager.CurrentMap.Width &&
+                newY >= 0 && newY < _mapManager.CurrentMap.Height &&
+                _mapManager.CurrentMap.Tiles[newY, newX] != '#')
             {
-                if (_mapManager._currentMap._tiles[_newY, _newX] != '#')
-                {
-                    _player._x = _newX;
-                    _player._y = _newY;
-                }
+                _player.X = newX;
+                _player.Y = newY;
+            }
+        }
+
+        private void HandleMapTransition()
+        {
+            int width = _mapManager.CurrentMap.Width;
+            int height = _mapManager.CurrentMap.Height;
+            var coords = _mapManager.CurrentMapCoords;
+
+            // Transition horizontale
+            if (_player.X == 0)
+            {
+                _mapManager.ChangeMap(coords.X - 1, coords.Y);
+                _player.X = _mapManager.CurrentMap.Width - 2;
+            }
+            else if (_player.X == width - 1)
+            {
+                _mapManager.ChangeMap(coords.X + 1, coords.Y);
+                _player.X = 1;
             }
 
-            if (_player._x == 0)
+            // Transition verticale
+            if (_player.Y == 0)
             {
-                _mapManager.ChangeMap(_mapManager._currentMapCoords.X - 1, _mapManager._currentMapCoords.Y);
-                _player._x = _mapManager._currentMap._width - 2;
+                _mapManager.ChangeMap(coords.X, coords.Y - 1);
+                _player.Y = _mapManager.CurrentMap.Height - 2;
             }
-            if (_player._x == _mapManager._currentMap._width - 1)
+            else if (_player.Y == height - 1)
             {
-                _mapManager.ChangeMap(_mapManager._currentMapCoords.X + 1, _mapManager._currentMapCoords.Y);
-                _player._x = 1;
-            }
-            if (_player._y == 0)
-            {
-                _mapManager.ChangeMap(_mapManager._currentMapCoords.X, _mapManager._currentMapCoords.Y + 1);
-                _player._y = _mapManager._currentMap._height - 2;
-            }
-            if (_player._y == _mapManager._currentMap._height - 1)
-            {
-                _mapManager.ChangeMap(_mapManager._currentMapCoords.X, _mapManager._currentMapCoords.Y - 1);
-                _player._y = 1;
+                _mapManager.ChangeMap(coords.X, coords.Y + 1);
+                _player.Y = 1;
             }
         }
 
         public void Draw()
         {
             System.Console.Clear();
-            _mapManager._currentMap.Draw();
-            System.Console.SetCursorPosition(_player._x * 2, _player._y);
+            _mapManager.CurrentMap.Draw();
+            System.Console.SetCursorPosition(_player.X * 2, _player.Y);
             System.Console.BackgroundColor = ConsoleColor.Yellow;
             System.Console.Write("  ");
             System.Console.ResetColor();
-
         }
 
         public void Exit()

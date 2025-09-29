@@ -1,7 +1,7 @@
-﻿using IItemSpace;
+﻿using System;
+using IItemSpace;
 using ItemSpace;
 using PlayerSpace;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,16 +23,16 @@ namespace InventorySpace
 
         public void Show()
         {
-            Console.WriteLine("=== Inventaire ===");
+            System.Console.WriteLine("=== Inventaire ===");
             if (items.Count == 0)
             {
-                Console.WriteLine("Inventaire vide !");
+                System.Console.WriteLine("Inventaire vide !");
                 return;
             }
 
             foreach (var kvp in items)
             {
-                Console.WriteLine($"{kvp.Key} x{kvp.Value}");
+                System.Console.WriteLine($"{kvp.Key} x{kvp.Value}");
             }
         }
 

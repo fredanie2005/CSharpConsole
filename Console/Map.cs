@@ -5,9 +5,9 @@ namespace Console
 {
     class Map
     {
-        public int _width { get; private set; }
-        public int _height { get; private set; }
-        public char[,] _tiles { get; private set; }
+        public int Width { get; private set; }
+        public int Height { get; private set; }
+        public char[,] Tiles { get; private set; }
 
         public Map(string filePath)
         {
@@ -17,38 +17,30 @@ namespace Console
         private void LoadMap(string filePath)
         {
             var lines = File.ReadAllLines(filePath);
-            _height = lines.Length;
-            _width = lines[0].Length;
-            _tiles = new char[_height, _width];
-            for (int y = 0; y < _height; y++)
-                for (int x = 0; x < _width; x++)
-                    _tiles[y, x] = lines[y][x];
+            Height = lines.Length;
+            Width = lines[0].Length;
+            Tiles = new char[Height, Width];
+
+            for (int y = 0; y < Height; y++)
+            for (int x = 0; x < Width; x++)
+                Tiles[y, x] = lines[y][x];
         }
 
         public void Draw()
         {
-            for (int y = 0; y < _height; y++)
+            for (int y = 0; y < Height; y++)
             {
-                for (int x = 0; x < _width; x++)
+                for (int x = 0; x < Width; x++)
                 {
-                    char tile = _tiles[y, x];
-
-                    switch (tile)
+                    char tile = Tiles[y, x];
+                    System.Console.BackgroundColor = tile switch
                     {
-                        case '#':
-                            System.Console.BackgroundColor = ConsoleColor.Magenta;
-                            break;
-                        case '.':
-                            System.Console.BackgroundColor = ConsoleColor.Cyan;
-                            break;
-                        default:
-                            System.Console.BackgroundColor = ConsoleColor.Black;
-                            break;
-                    }
-
+                        '#' => ConsoleColor.Magenta,
+                        '.' => ConsoleColor.Cyan,
+                        _ => ConsoleColor.Black
+                    };
                     System.Console.Write("  ");
                 }
-
                 System.Console.ResetColor();
                 System.Console.WriteLine();
             }
