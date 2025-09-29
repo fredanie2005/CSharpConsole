@@ -1,3 +1,16 @@
-﻿// See https://aka.ms/new-console-template for more information
+using System;
+using Console.GameState;
 
-Console.WriteLine("Hello, World!");
+namespace Console
+{
+    class Program
+    {
+        static void Main()
+        {
+            GameManager gm = new GameManager();
+            gm.Init();
+            gm.ChangeState(new AdventureState());
+            gm.Run();
+        }
+    }
+}
