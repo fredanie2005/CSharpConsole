@@ -1,0 +1,53 @@
+# ---- C# & .NET ----
+bin/
+obj/
+*.exe
+*.dll
+*.pdb
+*.cache
+*.log
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# ---- Build ----
+/[Bb]in/
+/[Oo]bj/
+/[Ll]og/
+/[Tt]emp/
+*.tmp
+
+# ---- VS2022 ----
+.vs/
+*.dbmdl
+*.bak
+*.vscode/
+
+# ---- Rider / JetBrains ----
+.idea/
+.idea_modules/
+*.iml
+
+# ---- Packages ----
+*.nupkg
+*.snupkg
+*.nuspec
+packages/
+*.packagecache/
+*.vsix
+
+# ---- User configs ----
+*.userprefs
+*.csproj.user
+*.DotSettings
+*.DotSettings.user
+
+# ---- OS junk ----
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ---- Other ----
+_ReSharper.Caches/
+*.sln.GhostDoc.xml
